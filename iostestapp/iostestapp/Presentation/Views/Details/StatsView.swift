@@ -13,20 +13,18 @@ struct StatsView: View {
     let color: Color
     
     var body: some View {
-        VStack(spacing: 4) {
-            HStack(spacing: 4) {
+        VStack(spacing: AppConstants.Spacing.extraSmall) {
+            HStack(spacing: AppConstants.Spacing.extraSmall) {
                 Image(systemName: icon)
                     .foregroundColor(color)
                     .font(.caption)
                 
                 Text("\(count)")
-                    .font(.caption)
-                    .fontWeight(.medium)
+                    .statsTextStyle()
             }
             
             Text(label)
-                .font(.caption2)
-                .foregroundColor(.secondary)
+                .caption2Style()
         }
     }
 }

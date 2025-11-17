@@ -14,7 +14,7 @@ struct ListItemView: View {
     var body: some View {
         VStack(spacing: 0) {
             HStack {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: AppConstants.Spacing.extraSmall) {
                     Text(repoItem.name)
                         .titleStyle()
                     
@@ -26,17 +26,15 @@ struct ListItemView: View {
                 
                 Spacer()
                 
-                VStack(alignment: .trailing, spacing: 4) {
-                    Label("\(repoItem.openIssuesCount)", systemImage: "exclamationmark.circle")
-                        .font(.caption)
-                        .foregroundColor(repoItem.openIssuesCount > 0 ? .orange : .secondary)
+                VStack(alignment: .trailing, spacing: AppConstants.Spacing.extraSmall) {
+                    Label("\(repoItem.openIssuesCount)", systemImage: SystemImages.exclamationCircle.name)
+                        .issueCountStyle(hasIssues: repoItem.openIssuesCount > 0)
                     
                     Text("open_issues".localized)
-                        .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .caption2Style()
                 }
             }
-            .padding()
+            .padding(AppConstants.Padding.standard)
 
             Divider()
         }

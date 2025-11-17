@@ -12,21 +12,18 @@ struct TagsSection: View {
     let tags: [RepoTagModel]
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
             // Section header
             HStack {
                 Text("tags".localized)
-                    .font(.title3)
-                    .fontWeight(.semibold)
-                    .foregroundColor(.primary)
+                    .sectionHeaderStyle()
                 
                 Spacer()
                 
                 Text("\(tags.count)")
-                    .font(.caption)
-                    .foregroundColor(.secondary)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
+                    .badgeTextStyle()
+                    .padding(.horizontal, AppConstants.Padding.small)
+                    .padding(.vertical, AppConstants.Padding.extraSmall)
                     .background(Color(.systemGray5))
                     .clipShape(Capsule())
             }
@@ -35,11 +32,10 @@ struct TagsSection: View {
             // Tags list
             if tags.isEmpty {
                 Text("no_tags_available".localized)
-                    .font(.body)
-                    .foregroundColor(.secondary)
+                    .emptyStateStyle()
                     .padding()
             } else {
-                LazyVStack(alignment: .leading, spacing: 8) {
+                LazyVStack(alignment: .leading, spacing: AppConstants.Spacing.small) {
                     ForEach(tags, id: \.name) { tag in
                         TagItemView(tag: tag)
                     }

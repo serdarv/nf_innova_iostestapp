@@ -22,14 +22,14 @@ struct ErrorView: View {
     }
     
     var body: some View {
-        VStack(spacing: 20) {
+        VStack(spacing: AppConstants.Spacing.extraLarge) {
             // Error Icon
-            Image(systemName: "exclamationmark.triangle.fill")
-                .font(.system(size: 50))
+            Image(systemName: SystemImages.exclamationTriangleFill.name)
+                .font(.system(size: AppConstants.FontSize.system50))
                 .foregroundColor(.orange)
             
             // Error Messages
-            VStack(spacing: 8) {
+            VStack(spacing: AppConstants.Spacing.small) {
                 Text(title)
                     .font(.title2)
                     .fontWeight(.semibold)
@@ -49,22 +49,22 @@ struct ErrorView: View {
                 }
             } label: {
                 HStack {
-                    Image(systemName: "arrow.clockwise")
-                        .font(.system(size: 16, weight: .medium))
+                    Image(systemName: SystemImages.arrowClockwise.name)
+                        .font(.system(size: AppConstants.IconSize.small, weight: .medium))
                     
                     Text("retry".localized)
                         .font(.body)
                         .fontWeight(.medium)
                 }
                 .foregroundColor(.white)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
+                .padding(.horizontal, AppConstants.Padding.extraLarge)
+                .padding(.vertical, AppConstants.Padding.medium)
                 .background(Color.blue)
                 .clipShape(Capsule())
             }
             .buttonStyle(.plain)
         }
-        .padding(40)
+        .padding(AppConstants.Padding.container)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }

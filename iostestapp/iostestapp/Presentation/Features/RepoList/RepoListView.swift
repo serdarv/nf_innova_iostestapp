@@ -31,7 +31,7 @@ struct RepoListView: View {
                 List(viewModel.repos) { repo in
                     ListItemView(repoItem: repo)
                         .listRowSeparator(.hidden)
-                        .listRowInsets(EdgeInsets())
+                        .listRowInsets(.zero)
                         .onTapGesture {
                             router.addToRoute(AppRoutes.details(repo.name))
                         }

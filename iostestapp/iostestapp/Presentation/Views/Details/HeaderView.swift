@@ -12,9 +12,9 @@ struct HeaderView: View {
     let repository: RepoModel
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
             // User info section
-            HStack(spacing: 12) {
+            HStack(spacing: AppConstants.Spacing.medium) {
                 AsyncImage(url: URL(string: repository.owner.avatarURL)) { image in
                     image
                         .resizable()
@@ -23,21 +23,19 @@ struct HeaderView: View {
                     Circle()
                         .fill(Color.gray.opacity(0.3))
                         .overlay {
-                            Image(systemName: "person.circle.fill")
+                            Image(systemName: SystemImages.personCircleFill.name)
                                 .foregroundColor(.gray)
                         }
                 }
-                .frame(width: 50, height: 50)
+                .frame(width: AppConstants.IconSize.large, height: AppConstants.IconSize.large)
                 .clipShape(Circle())
                 
                 VStack(alignment: .leading, spacing: 2) {
                     Text(repository.owner.login)
-                        .font(.headline)
-                        .foregroundColor(.primary)
+                        .titleStyle()
                     
                     Text(repository.owner.type.capitalized)
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                        .captionStyle()
                 }
                 
                 Spacer()
@@ -45,36 +43,32 @@ struct HeaderView: View {
             
             // Repository name
             Text(repository.name)
-                .font(.title2)
-                .fontWeight(.bold)
-                .foregroundColor(.primary)
+                .repoTitleStyle()
             
             // Repository description
             if let description = repository.description, !description.isEmpty {
                 Text(description)
-                    .font(.body)
-                    .foregroundColor(.secondary)
-                    .lineLimit(3)
+                    .descriptionStyle(lineLimit: 3)
             }
             
             // Stats section
-            HStack(spacing: 20) {
+            HStack(spacing: AppConstants.Spacing.extraLarge) {
                 StatsView(
-                    icon: "star.fill",
+                    icon: SystemImages.starFill.name,
                     count: repository.stargazersCount,
                     label: "stars".localized,
                     color: .yellow
                 )
                 
                 StatsView(
-                    icon: "tuningfork",
+                    icon: SystemImages.tuningfork.name,
                     count: repository.forksCount,
                     label: "forks".localized,
                     color: .blue
                 )
                 
                 StatsView(
-                    icon: "eye.fill",
+                    icon: SystemImages.eyeFill.name,
                     count: repository.watchersCount,
                     label: "watchers".localized,
                     color: .green
@@ -82,7 +76,7 @@ struct HeaderView: View {
                 
                 if repository.openIssuesCount > 0 {
                     StatsView(
-                        icon: "exclamationmark.circle.fill",
+                        icon: SystemImages.exclamationCircleFill.name,
                         count: repository.openIssuesCount,
                         label: "issues".localized,
                         color: .red
@@ -93,25 +87,22 @@ struct HeaderView: View {
             // Language and additional info
             HStack {
                 if let language = repository.language {
-                    Label(language, systemImage: "chevron.left.slash.chevron.right")
-                        .font(.caption)
-                        .foregroundColor(.secondary)
+                    Label(language, systemImage: SystemImages.chevronLeftSlashChevronRight.name)
+                        .captionStyle()
                 }
                 
                 Spacer()
                 
                 if repository.isPrivate {
-                    Label("private".localized, systemImage: "lock.fill")
-                        .font(.caption)
-                        .foregroundColor(.orange)
+                    Label("private".localized, systemImage: SystemImages.lockFill.name)
+                        .privateStatusStyle()
                 } else {
-                    Label("public".localized, systemImage: "globe")
-                        .font(.caption)
-                        .foregroundColor(.green)
+                    Label("public".localized, systemImage: SystemImages.globe.name)
+                        .publicStatusStyle()
                 }
             }
         }
-        .padding()
+        .padding(AppConstants.Padding.standard)
         .background(Color(.systemBackground))
     }
 }

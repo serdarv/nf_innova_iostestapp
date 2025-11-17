@@ -11,7 +11,7 @@ struct ContentView: View {
     let githubService = DIManager.shared.resolve(GithubServiceProtocol.self)
     var body: some View {
         VStack {
-            Image(systemName: "globe")
+            Image(systemName: SystemImages.globe.name)
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("hello_world".localized)
