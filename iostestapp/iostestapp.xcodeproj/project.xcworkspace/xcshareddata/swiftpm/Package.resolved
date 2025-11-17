@@ -1,0 +1,15 @@
+{
+  "originHash" : "2120ad08b059605e82a23f2446c703f63fbe77d614b0105f12bf5ae62f29d9de",
+  "pins" : [
+    {
+      "identity" : "swinject",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Swinject/Swinject.git",
+      "state" : {
+        "revision" : "b685b549fe4d8ae265fc7a2f27d0789720425d69",
+        "version" : "2.10.0"
+      }
+    }
+  ],
+  "version" : 3
+}
