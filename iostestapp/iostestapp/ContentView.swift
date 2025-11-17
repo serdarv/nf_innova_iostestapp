@@ -5,6 +5,7 @@
 
 import SwiftUI
 import RepoFeature
+import Common
 
 struct ContentView: View {
     let githubService = DIManager.shared.resolve(GithubServiceProtocol.self)
@@ -13,7 +14,7 @@ struct ContentView: View {
             Image(systemName: "globe")
                 .imageScale(.large)
                 .foregroundStyle(.tint)
-            Text("Hello, world!")
+            Text("hello_world".localized)
         }
         .onAppear {
             Task {
@@ -21,7 +22,8 @@ struct ContentView: View {
                     let repos = try await self.githubService.getRepos()
                     print(repos)
                 } catch {
-                    print("Error fetching repos: \(error)")
+                    let errorMessage = "error_fetching_repos".localized
+                    print(String(format: errorMessage, error.localizedDescription))
                 }
             }
         }

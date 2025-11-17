@@ -17,11 +17,11 @@ extension GithubEndpoint: RequestProtocol {
     public var path: String {
         switch self {
         case .getRepos:
-            return "/users/octocat/repos"
+            return "users/octocat/repos"
         case .getRepoDetails(_, let owner, let repo):
-            return "/repos/\(owner)/\(repo)"
+            return "repos/\(owner)/\(repo)"
         case .getRepoTags(_, let owner, let repo):
-            return "/repos/\(owner)/\(repo)/tags"
+            return "repos/\(owner)/\(repo)/tags"
         }
     }
 

@@ -6,11 +6,11 @@
 import Foundation
 
 public struct RepoTagModel: Codable, Sendable {
-    let name: String
-    let zipballURL: String
-    let tarballURL: String
-    let commit: TagCommit
-    let nodeID: String
+    public let name: String
+    public let zipballURL: String
+    public let tarballURL: String
+    public let commit: TagCommit
+    public let nodeID: String
     
     enum CodingKeys: String, CodingKey {
         case name
@@ -22,6 +22,6 @@ public struct RepoTagModel: Codable, Sendable {
 }
 
 public struct TagCommit: Codable, Sendable {
-    let sha: String
-    let url: String
+    public let sha: String
+    public let url: String
 }

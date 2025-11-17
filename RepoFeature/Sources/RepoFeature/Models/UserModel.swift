@@ -5,9 +5,9 @@
 
 public struct UserModel: Codable, Sendable {
     let id: Int
-    let login: String
+    public let login: String
     let nodeID: String?
-    let avatarURL: String
+    public let avatarURL: String
     let gravatarID: String
     let url: String
     let htmlURL: String
@@ -20,7 +20,7 @@ public struct UserModel: Codable, Sendable {
     let reposURL: String
     let eventsURL: String
     let receivedEventsURL: String
-    let type: String
+    public let type: String
     let userViewType: String
     let siteAdmin: Bool
 

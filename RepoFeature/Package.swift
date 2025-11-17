@@ -13,11 +13,16 @@ let package = Package(
             targets: ["RepoFeature"]
         ),
     ],
+    dependencies: [
+        // Dependencies declare other packages that this package depends on.
+        .package(path: "../CoreNetworking"), // Adjust the path as needed
+    ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
         // Targets can depend on other targets in this package and products from dependencies.
         .target(
-            name: "RepoFeature"
+            name: "RepoFeature",
+            dependencies: ["CoreNetworking"]
         ),
         .testTarget(
             name: "RepoFeatureTests",
