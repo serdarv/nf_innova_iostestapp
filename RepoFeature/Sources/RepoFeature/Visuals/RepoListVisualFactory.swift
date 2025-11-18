@@ -5,10 +5,10 @@
 
 import Foundation
 
-public struct RepoListVisualFactory {
+internal struct RepoListVisualFactory {
     
     // Internal method that uses API models (not exposed outside module)
-    internal static func create(from repoModel: RepoModel) -> RepoListVisual {
+    static func create(from repoModel: RepoModel) -> RepoListVisual {
         return RepoListVisual(
             name: repoModel.name,
             description: repoModel.description,
@@ -18,12 +18,12 @@ public struct RepoListVisualFactory {
     }
     
     // Internal method that uses API models (not exposed outside module)
-    internal static func create(from repoModels: [RepoModel]) -> [RepoListVisual] {
+    static func create(from repoModels: [RepoModel]) -> [RepoListVisual] {
         return repoModels.map { create(from: $0) }
     }
     
     // Public method for external use - creates visual model from individual parameters
-    public static func create(
+    static func create(
         name: String,
         description: String?,
         openIssuesCount: Int

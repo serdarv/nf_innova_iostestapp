@@ -3,7 +3,7 @@
 //  iostestapp
 //
 
-public struct LicenseModel: Codable, Sendable {
+struct LicenseModel: Codable, Sendable {
     let key: String
     let name: String
     let spdxID: String?

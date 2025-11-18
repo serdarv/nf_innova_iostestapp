@@ -3,11 +3,11 @@
 //  iostestapp
 //
 
-public struct UserModel: Codable, Sendable {
+struct UserModel: Codable, Sendable {
     let id: Int
-    public let login: String
+    let login: String
     let nodeID: String?
-    public let avatarURL: String
+    let avatarURL: String
     let gravatarID: String
     let url: String
     let htmlURL: String
@@ -20,7 +20,7 @@ public struct UserModel: Codable, Sendable {
     let reposURL: String
     let eventsURL: String
     let receivedEventsURL: String
-    public let type: String
+    let type: String
     let userViewType: String
     let siteAdmin: Bool
 

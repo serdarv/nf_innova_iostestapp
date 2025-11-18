@@ -5,15 +5,15 @@
 
 import Foundation
 
-public struct RepoModel: Codable, Sendable, Identifiable {
-    public let id: Int
+struct RepoModel: Codable, Sendable, Identifiable {
+    let id: Int
     let nodeID: String
-    public let name: String
+    let name: String
     let fullName: String
-    public let isPrivate: Bool
-    public let owner: UserModel
+    let isPrivate: Bool
+    let owner: UserModel
     let htmlURL: String
-    public let description: String?
+    let description: String?
     let fork: Bool
     let url: String
     let forksURL: String
@@ -61,20 +61,20 @@ public struct RepoModel: Codable, Sendable, Identifiable {
     let svnURL: String
     let homepage: String?
     let size: Int
-    public let stargazersCount: Int
-    public let watchersCount: Int
-    public let language: String?
+    let stargazersCount: Int
+    let watchersCount: Int
+    let language: String?
     let hasIssues: Bool
     let hasProjects: Bool
     let hasWiki: Bool
     let hasPages: Bool
     let hasDownloads: Bool
     let hasDiscussions: Bool
-    public let forksCount: Int
+    let forksCount: Int
     let mirrorURL: String?
     let archived: Bool
     let disabled: Bool
-    public let openIssuesCount: Int
+    let openIssuesCount: Int
     let license: LicenseModel?
     let allowForking: Bool
     let isTemplate: Bool
