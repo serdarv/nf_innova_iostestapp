@@ -9,7 +9,7 @@ import Common
 
 struct ListItemView: View {
 
-    let repoItem: RepoModel
+    let repoItem: RepoListVisual
 
     var body: some View {
         VStack(spacing: 0) {
@@ -28,9 +28,9 @@ struct ListItemView: View {
                 
                 VStack(alignment: .trailing, spacing: AppConstants.Spacing.extraSmall) {
                     Label("\(repoItem.openIssuesCount)", systemImage: SystemImages.exclamationCircle.name)
-                        .issueCountStyle(hasIssues: repoItem.openIssuesCount > 0)
+                        .issueCountStyle(hasIssues: repoItem.hasIssues)
                     
-                    Text("open_issues".localized)
+                    Text("open_issues")
                         .caption2Style()
                 }
             }

@@ -12,23 +12,15 @@ struct RepoDetailsView: View {
     @StateObject var viewModel: RepoDetailsViewModel
 
     var body: some View {
-        Group {
-            if viewModel.isLoading {
-                // Loading state
-                VStack {
-                    ProgressView("loading_repository_details".localized)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                }
-            } else if viewModel.hasError {
-                // Error state
-                ErrorView {
-                    await viewModel.fetchRepoDetails()
-                }
-            } else if let repository = viewModel.repo {
-                // Success state
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 16) {
-                        // Header Section
+        BaseView(
+            state: viewModel.viewState,
+            loadingMessage: "loading_repository_details",
+            onRetry: { await viewModel.fetchRepoDetails() }
+        ) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                    // Header Section
+                    if let repository = viewModel.repo {
                         HeaderView(repository: repository)
 
                         Divider()
@@ -38,17 +30,12 @@ struct RepoDetailsView: View {
                         TagsSection(tags: viewModel.tags)
                     }
                 }
-            } else {
-                // Empty state (shouldn't normally happen)
-                ErrorView {
-                    await viewModel.fetchRepoDetails()
-                }
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle(viewModel.repo?.name ?? "repository")
         }
         .task {
             await viewModel.fetchRepoDetails()
         }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(viewModel.repo?.name ?? "repository".localized)
     }
 }

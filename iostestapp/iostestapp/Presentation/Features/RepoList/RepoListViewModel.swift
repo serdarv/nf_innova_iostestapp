@@ -7,29 +7,29 @@ import Foundation
 import Combine
 import RepoFeature
 
-class RepoListViewModel: ObservableObject {
-    private let repoService = DIManager.shared.resolve(GithubServiceProtocol.self)
+class RepoListViewModel: BaseViewModel {
+    private let repoService = DIManager.shared.resolve(GithubVisualServiceProtocol.self)
 
-    @Published var repos: [RepoModel] = []
-    @Published var isLoading = false
-    @Published var hasError = false
+    @Published var repos: [RepoListVisual] = []
+
+    override init() {
+        super.init()
+    }
 
     func fetchRepos() async {
         await MainActor.run {
-            isLoading = true
-            hasError = false
+            setLoading()
         }
         
         do {
-            let fetchedRepos = try await repoService.getRepos()
+            let fetchedRepos = try await repoService.getReposVisual()
             await MainActor.run {
                 self.repos = fetchedRepos
-                self.isLoading = false
+                setIdle()
             }
         } catch {
             await MainActor.run {
-                self.hasError = true
-                self.isLoading = false
+                setError(error.localizedDescription)
             }
         }
     }

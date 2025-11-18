@@ -5,6 +5,10 @@
 
 import Foundation
 
+// Re-export commonly used types for external consumption
+public typealias RequestHeaders = [String: String]
+public typealias RequestParameters = [String: Any?]
+
 public enum NetworkError: Error {
     case networkError(String)
     case decodingError(String)
@@ -26,6 +30,7 @@ public enum NetworkError: Error {
 public protocol NetworkProviderProtocol: Sendable {
     func fetch(from url: URL) async throws -> Data
     func execute(request: URLRequest) async throws -> Data
+    func execute<Request: RequestProtocol>(_ endpoint: Request) async throws -> Request.Response
 }
 
 // Default implementation using URLSession
@@ -46,6 +51,20 @@ public final class NetworkProvider: NetworkProviderProtocol {
         let (data, response) = try await session.data(for: request)
         try validateResponse(response)
         return data
+    }
+    
+    public func execute<Request: RequestProtocol>(_ endpoint: Request) async throws -> Request.Response {
+        guard let urlRequest = endpoint.urlRequest() else {
+            throw NetworkError.networkError("Failed to create URL request")
+        }
+        
+        let data = try await execute(request: urlRequest)
+        
+        do {
+            return try JSONDecoder().decode(Request.Response.self, from: data)
+        } catch {
+            throw NetworkError.decodingError("Failed to decode response: \(error.localizedDescription)")
+        }
     }
     
     private func validateResponse(_ response: URLResponse) throws {

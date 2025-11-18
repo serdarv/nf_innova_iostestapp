@@ -17,7 +17,7 @@ class ServiceAssembly: Assembly {
         .inObjectScope(.container)
         
         // Register GithubService
-        container.register(GithubServiceProtocol.self) { _ in
+        container.register(GithubVisualServiceProtocol.self) { _ in
             return GithubService(baseURL: APIEnvironment.baseURL)
         }
         .inObjectScope(.container)

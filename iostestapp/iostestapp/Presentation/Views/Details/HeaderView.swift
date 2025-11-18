@@ -9,13 +9,13 @@ import RepoFeature
 import Common
 
 struct HeaderView: View {
-    let repository: RepoModel
+    let repository: RepoDetailsVisual
     
     var body: some View {
         VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
             // User info section
             HStack(spacing: AppConstants.Spacing.medium) {
-                AsyncImage(url: URL(string: repository.owner.avatarURL)) { image in
+                AsyncImage(url: URL(string: repository.ownerAvatarURL)) { image in
                     image
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -31,10 +31,10 @@ struct HeaderView: View {
                 .clipShape(Circle())
                 
                 VStack(alignment: .leading, spacing: 2) {
-                    Text(repository.owner.login)
+                    Text(repository.ownerLogin)
                         .titleStyle()
                     
-                    Text(repository.owner.type.capitalized)
+                    Text(repository.ownerType)
                         .captionStyle()
                 }
                 
@@ -56,29 +56,29 @@ struct HeaderView: View {
                 StatsView(
                     icon: SystemImages.starFill.name,
                     count: repository.stargazersCount,
-                    label: "stars".localized,
+                    label: "stars",
                     color: .yellow
                 )
                 
                 StatsView(
                     icon: SystemImages.tuningfork.name,
                     count: repository.forksCount,
-                    label: "forks".localized,
+                    label: "forks",
                     color: .blue
                 )
                 
                 StatsView(
                     icon: SystemImages.eyeFill.name,
                     count: repository.watchersCount,
-                    label: "watchers".localized,
+                    label: "watchers",
                     color: .green
                 )
                 
-                if repository.openIssuesCount > 0 {
+                if repository.hasOpenIssues {
                     StatsView(
                         icon: SystemImages.exclamationCircleFill.name,
                         count: repository.openIssuesCount,
-                        label: "issues".localized,
+                        label: "issues",
                         color: .red
                     )
                 }
@@ -94,10 +94,10 @@ struct HeaderView: View {
                 Spacer()
                 
                 if repository.isPrivate {
-                    Label("private".localized, systemImage: SystemImages.lockFill.name)
+                    Label("private", systemImage: SystemImages.lockFill.name)
                         .privateStatusStyle()
                 } else {
-                    Label("public".localized, systemImage: SystemImages.globe.name)
+                    Label("public", systemImage: SystemImages.globe.name)
                         .publicStatusStyle()
                 }
             }

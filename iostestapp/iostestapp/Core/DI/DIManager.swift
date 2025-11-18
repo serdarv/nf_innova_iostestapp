@@ -17,7 +17,7 @@ final class DIManager {
             }
         }
 
-        static let allCasess: [Service] = [.services]
+        static let allCases: [Service] = [.services]
     }
 
     static let shared = DIManager()
@@ -27,7 +27,7 @@ final class DIManager {
 
     func setup() {
         container = Container()
-        assembler = Assembler(Service.allCasess.map { $0.assembly }, container: container)
+        assembler = Assembler(Service.allCases.map { $0.assembly }, container: container)
         let resolver = assembler.resolver as? Container
         synchronizedResolver = resolver?.synchronize()
     }

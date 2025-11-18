@@ -9,7 +9,7 @@ import SwiftUI
 struct StatsView: View {
     let icon: String
     let count: Int
-    let label: String
+    let label: LocalizedStringKey
     let color: Color
     
     var body: some View {

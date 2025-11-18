@@ -6,13 +6,14 @@
 import Foundation
 import CoreNetworking
 
-public protocol GithubServiceProtocol {
-    func getRepos() async throws -> [RepoModel]
-    func getRepoDetails(owner: String, repo: String) async throws -> RepoModel
-    func getRepoTags(owner: String, repo: String) async throws -> [RepoTagModel]
+// Public Visual interface for external use
+public protocol GithubVisualServiceProtocol {
+    func getReposVisual() async throws -> [RepoListVisual]
+    func getRepoDetailsVisual(owner: String, repo: String) async throws -> RepoDetailsVisual
+    func getRepoTagsVisual(owner: String, repo: String) async throws -> [RepoTagVisual]
 }
 
-public class GithubService: GithubServiceProtocol {
+public class GithubService: GithubVisualServiceProtocol {
     private let networkProvider: NetworkProviderProtocol = NetworkProvider()
     private let baseURL: String
     
@@ -20,16 +21,17 @@ public class GithubService: GithubServiceProtocol {
         self.baseURL = baseURL
     }
 
-    public func getRepos() async throws -> [RepoModel] {
+    // MARK: - Internal API Methods
+
+    internal func getRepoTags(owner: String, repo: String) async throws -> [RepoTagModel] {
+        let endpoint: GithubEndpoint<[RepoTagModel]> = .getRepoTags(baseURL: baseURL, owner: owner, repo: repo)
+        return try await networkProvider.execute(endpoint)
+    }
+
+    internal func getRepos() async throws -> [RepoModel] {
         do {
             let endpoint: GithubEndpoint<[RepoModel]> = .getRepos(baseURL: baseURL)
-            
-            guard let urlRequest = endpoint.urlRequest() else {
-                throw NetworkError.networkError("Failed to create URL request")
-            }
-            
-            let data = try await networkProvider.execute(request: urlRequest)
-            return try JSONDecoder().decode([RepoModel].self, from: data)
+            return try await networkProvider.execute(endpoint)
         } catch {
             // Fallback to mock data when network request fails
             return try loadMockRepos()
@@ -45,25 +47,26 @@ public class GithubService: GithubServiceProtocol {
         return try JSONDecoder().decode([RepoModel].self, from: data)
     }
     
-    public func getRepoDetails(owner: String, repo: String) async throws -> RepoModel {
+    internal func getRepoDetails(owner: String, repo: String) async throws -> RepoModel {
         let endpoint: GithubEndpoint<RepoModel> = .getRepoDetails(baseURL: baseURL, owner: owner, repo: repo)
-        
-        guard let urlRequest = endpoint.urlRequest() else {
-            throw NetworkError.networkError("Failed to create URL request")
-        }
-        
-        let data = try await networkProvider.execute(request: urlRequest)
-        return try JSONDecoder().decode(RepoModel.self, from: data)
+        return try await networkProvider.execute(endpoint)
     }
     
-    public func getRepoTags(owner: String, repo: String) async throws -> [RepoTagModel] {
-        let endpoint: GithubEndpoint<[RepoTagModel]> = .getRepoTags(baseURL: baseURL, owner: owner, repo: repo)
-        
-        guard let urlRequest = endpoint.urlRequest() else {
-            throw NetworkError.networkError("Failed to create URL request")
-        }
-        
-        let data = try await networkProvider.execute(request: urlRequest)
-        return try JSONDecoder().decode([RepoTagModel].self, from: data)
+    // MARK: - Visual Service Methods (Public Protocol Implementation)
+    
+    public func getReposVisual() async throws -> [RepoListVisual] {
+        let repoModels = try await getRepos()
+        return RepoListVisualFactory.create(from: repoModels)
+    }
+    
+    public func getRepoDetailsVisual(owner: String, repo: String) async throws -> RepoDetailsVisual {
+        let repoModel = try await getRepoDetails(owner: owner, repo: repo)
+        let tags = try await getRepoTags(owner: owner, repo: repo)
+        return RepoDetailsVisualFactory.create(from: repoModel, tags: tags)
+    }
+    
+    public func getRepoTagsVisual(owner: String, repo: String) async throws -> [RepoTagVisual] {
+        let tagModels = try await getRepoTags(owner: owner, repo: repo)
+        return RepoTagVisualFactory.create(from: tagModels)
     }
 }

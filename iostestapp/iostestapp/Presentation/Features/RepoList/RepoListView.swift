@@ -14,20 +14,13 @@ struct RepoListView: View {
 
     var body: some View {
         VStack {
-            Text("list_view".localized)
+            Text("list_view")
                 .headerStyle()
             
-            if viewModel.isLoading {
-                // Loading state
-                ProgressView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else if viewModel.hasError {
-                // Error state
-                ErrorView {
-                    await viewModel.fetchRepos()
-                }
-            } else {
-                // Success state
+            BaseView(
+                state: viewModel.viewState,
+                onRetry: { await viewModel.fetchRepos() }
+            ) {
                 List(viewModel.repos) { repo in
                     ListItemView(repoItem: repo)
                         .listRowSeparator(.hidden)
@@ -35,9 +28,6 @@ struct RepoListView: View {
                         .onTapGesture {
                             router.addToRoute(AppRoutes.details(repo.name))
                         }
-                }
-                .refreshable {
-                    await viewModel.fetchRepos()
                 }
                 .listStyle(.plain)
                 .scrollContentBackground(.hidden)

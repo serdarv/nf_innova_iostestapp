@@ -12,8 +12,8 @@ struct ErrorView: View {
     let retryAction: () async -> Void
     
     init(
-        title: String = "something_went_wrong".localized,
-        subtitle: String = "try_again_later".localized,
+        title: String = "something_went_wrong",
+        subtitle: String = "try_again_later",
         retryAction: @escaping () async -> Void
     ) {
         self.title = title
@@ -52,7 +52,7 @@ struct ErrorView: View {
                     Image(systemName: SystemImages.arrowClockwise.name)
                         .font(.system(size: AppConstants.IconSize.small, weight: .medium))
                     
-                    Text("retry".localized)
+                    Text("retry")
                         .font(.body)
                         .fontWeight(.medium)
                 }

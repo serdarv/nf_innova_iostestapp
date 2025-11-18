@@ -9,7 +9,7 @@ import RepoFeature
 import Common
 
 struct TagItemView: View {
-    let tag: RepoTagModel
+    let tag: RepoTagVisual
     
     var body: some View {
         VStack(alignment: .leading, spacing: AppConstants.Spacing.small) {
@@ -33,7 +33,7 @@ struct TagItemView: View {
                     .foregroundColor(.secondary)
                     .font(.caption2)
                 
-                Text("sha".localized + "\(tag.commit.sha.prefix(8))")
+                Text("sha" + tag.shortCommitSha)
                     .captionStyle()
             }
         }

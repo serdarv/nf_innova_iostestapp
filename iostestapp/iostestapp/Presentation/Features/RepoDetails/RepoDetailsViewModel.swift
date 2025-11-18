@@ -6,39 +6,37 @@
 import Foundation
 import Combine
 import RepoFeature
+import Common
 
-class RepoDetailsViewModel: ObservableObject {
-    private let repoService = DIManager.shared.resolve(GithubServiceProtocol.self)
+class RepoDetailsViewModel: BaseViewModel {
+    private let repoService = DIManager.shared.resolve(GithubVisualServiceProtocol.self)
 
     private let repoName: String
-    @Published var repo: RepoModel?
-    @Published var tags: [RepoTagModel] = []
-    @Published var isLoading = false
-    @Published var hasError = false
+    @Published var repo: RepoDetailsVisual?
+    @Published var tags: [RepoTagVisual] = []
 
     init(repoName: String) {
         self.repoName = repoName
+        super.init()
     }
 
     func fetchRepoDetails() async {
         await MainActor.run {
-            isLoading = true
-            hasError = false
+            setLoading()
         }
         
         do {
-            let repoDetails = try await repoService.getRepoDetails(owner: "octocat", repo: repoName)
-            let repoTags = try await repoService.getRepoTags(owner: "octocat", repo: repoName)
+            let repoDetails = try await repoService.getRepoDetailsVisual(owner: "octocat", repo: repoName)
+            let repoTags = try await repoService.getRepoTagsVisual(owner: "octocat", repo: repoName)
             
             await MainActor.run {
                 self.repo = repoDetails
                 self.tags = repoTags
-                self.isLoading = false
+                setIdle()
             }
         } catch {
             await MainActor.run {
-                self.hasError = true
-                self.isLoading = false
+                setError(error.localizedDescription)
             }
         }
     }

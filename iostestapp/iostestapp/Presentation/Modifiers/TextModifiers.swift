@@ -13,6 +13,8 @@ struct HeaderTextModifier: ViewModifier {
             .fontWeight(.bold)
             .foregroundColor(.primary)
             .multilineTextAlignment(.leading)
+            .accessibilityAddTraits(.isHeader)
+            .accessibilityHeading(.h1)
     }
 }
 

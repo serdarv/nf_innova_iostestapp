@@ -9,13 +9,13 @@ import RepoFeature
 import Common
 
 struct TagsSection: View {
-    let tags: [RepoTagModel]
+    let tags: [RepoTagVisual]
     
     var body: some View {
         VStack(alignment: .leading, spacing: AppConstants.Spacing.medium) {
             // Section header
             HStack {
-                Text("tags".localized)
+                Text("tags")
                     .sectionHeaderStyle()
                 
                 Spacer()
@@ -31,7 +31,7 @@ struct TagsSection: View {
             
             // Tags list
             if tags.isEmpty {
-                Text("no_tags_available".localized)
+                Text("no_tags_available")
                     .emptyStateStyle()
                     .padding()
             } else {
